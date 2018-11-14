@@ -1,0 +1,28 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jquery": true
+  },
+  "extends": ["airbnb-base"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "globals": {
+    "Velocity": true
+  },
+  "rules": {
+    "no-console": 0,
+    "no-alert": 0,
+    "no-debugger": 1,
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "bracketSpacing": true,
+        "arrowParens": "always"
+      }
+    ]
+  }
+}

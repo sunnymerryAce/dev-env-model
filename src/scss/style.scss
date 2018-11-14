@@ -1,0 +1,12 @@
+@import 'partial/reset';
+@import 'partial/module';
+@import 'partial/layout';
+
+body {
+  background: #eee;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+}
