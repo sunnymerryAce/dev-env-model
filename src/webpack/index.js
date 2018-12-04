@@ -1,3 +1,10 @@
+/**
+ * @author Yoichiro Hirano
+ * @description Develop Environment Model
+ * @created 2018/12/03
+ * @link https://
+ */
+
 import { CONST } from './CONST';
 
 class Index {
@@ -5,10 +12,6 @@ class Index {
    * constructor
    */
   constructor() {
-    this.initialize();
-  }
-
-  initialize() {
     console.log(CONST.TEST_TEXT);
   }
 }

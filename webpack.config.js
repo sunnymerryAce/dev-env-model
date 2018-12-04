@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -98,6 +99,8 @@ module.exports = {
     extensions: ['*', '.js', '.vue', '.json'], // デフォルトでは ['.wasm', '.mjs', '.js', '.json']
   },
   plugins: [
+    // bundleサイズの表示
+    new BundleAnalyzerPlugin(),
     // JS内の'process.env.NODE_ENV'が'development'か'production'に置き換わる
     new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
     // 共通プラグインを利用するときはこれを書いておけばインポート不要

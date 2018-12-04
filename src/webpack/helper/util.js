@@ -38,7 +38,7 @@ export const enablePassiveEventListeners = () => {
     Object.defineProperty({}, 'passive', {
       get: () => {
         result = true;
-      }
+      },
     });
 
   document.addEventListener('test', () => {}, opts);
@@ -89,7 +89,7 @@ export const getTransitionendName = () => {
     transition: 'transitionend',
     OTransition: 'oTransitionEnd',
     MozTransition: 'transitionend',
-    WebkitTransition: 'webkitTransitionEnd'
+    WebkitTransition: 'webkitTransitionEnd',
   };
   let key;
 
