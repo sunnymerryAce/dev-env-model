@@ -5,14 +5,17 @@
  * @link https://
  */
 
-import { CONST } from './CONST';
+import CONST from './CONST';
+
+const { TEST_TEXT, number } = CONST;
 
 class Index {
   /**
    * constructor
    */
   constructor() {
-    console.log(CONST.TEST_TEXT);
+    console.log(TEST_TEXT);
+    console.log(number);
   }
 }
 
