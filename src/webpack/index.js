@@ -5,17 +5,20 @@
  * @link https://
  */
 
-import CONST from './CONST';
+import CONST from './helper/CONST';
 
-const { TEST_TEXT, number } = CONST;
+const { TEST_TEXT, NUMBER_10 } = CONST;
 
-class Index {
+export default class Index {
   /**
    * constructor
    */
   constructor() {
-    console.log(TEST_TEXT);
-    console.log(number);
+    console.log(Index.getNumber());
+  }
+
+  static getNumber() {
+    return NUMBER_10;
   }
 }
 

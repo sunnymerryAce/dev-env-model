@@ -2,5 +2,5 @@
 export default class CONST {
   static TEST_TEXT = 'JS Loaded.';
 
-  static number = 10;
+  static NUMBER_10 = 10;
 }
