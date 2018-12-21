@@ -17,6 +17,37 @@ export const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+/**
+ * oddsの確率に応じて、確率に対応するインデックスを返す
+ * @param {Array} odds
+ * @param {Array} results
+ */
+export const getIndexValueOfGivenPercentage = (odds, results) => {
+  // 確率と返す結果が同じ長さ出ない場合、エラ＝
+  if (odds.length !== results.length)
+    throw new TypeError('Lengths are not equal.');
+  const incrementor = (accumulator, currentValue) => accumulator + currentValue;
+  // 確率の合計が100でない場合、エラー
+  if (odds.reduce(incrementor) !== 100) {
+    throw new TypeError('Total odds must be 100.');
+  }
+
+  // 計算用配列を作成
+  const calcOdds = odds.map((percentage, index) => {
+    const res = odds.concat().splice(index, odds.length);
+    return res.reduce(incrementor);
+  });
+
+  // 乱数作成
+  const number = Math.floor(Math.random() * 100) + 1;
+  let result = '';
+  calcOdds.forEach((percentage, index) => {
+    // 確率の範囲内であればインデックスを更新
+    if (number <= percentage) result = results[index];
+  });
+  return result;
+};
+
 /*
  * Outer Width With Margin
  */

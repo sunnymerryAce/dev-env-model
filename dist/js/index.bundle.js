@@ -100,7 +100,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// Constant Variable Class
+// Constant Class
 var CONST = function CONST() {
   _classCallCheck(this, CONST);
 };
@@ -117,11 +117,12 @@ _defineProperty(CONST, "NUMBER_10", 10);
 /*!******************************!*\
   !*** ./src/webpack/index.js ***!
   \******************************/
-/*! no exports provided */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Index; });
 /* harmony import */ var _helper_CONST__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helper/CONST */ "./src/webpack/helper/CONST.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -160,6 +161,7 @@ function () {
 
   return Index;
 }();
+
 
 window.addEventListener('DOMContentLoaded', function () {
   window.DEV_ENV_MODEL = window.DEV_ENV_MODEL || {};

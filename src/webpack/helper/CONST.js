@@ -1,4 +1,4 @@
-// Constant Variable Class
+// Constant Class
 export default class CONST {
   static TEST_TEXT = 'JS Loaded.';
 
