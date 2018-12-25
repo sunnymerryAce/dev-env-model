@@ -17,6 +17,14 @@
   "rules": {
     "no-console": 0,
     "no-alert": 0,
-    "no-debugger": 1
+    "no-debugger": 1,
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "bracketSpacing": true,
+        "arrowParens": "always"
+      }
+    ]
   }
 }
