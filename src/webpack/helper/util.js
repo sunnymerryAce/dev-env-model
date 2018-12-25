@@ -10,22 +10,26 @@ export const isSpView = () => {
  * 乱数取得
  * min から max までの乱整数を返す関数
  * Math.round() を用いると非一様分布
- * @param {Number} min
- * @param {Number} max
+ * @param {Object} args
+ * @param {Number} args.min
+ * @param {Number} args.max
+ * @returns {Number}
  */
-export const getRandomInt = (min, max) => {
+export const getRandomInt = ({ min, max }) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 /**
  * oddsの確率に応じて、確率に対応するインデックスを返す
- * @param {Array} odds
- * @param {Array} results
+ * @param {Object} args
+ * @param {Array} args.odds
+ * @param {Array} args.results
  */
-export const getIndexValueOfGivenPercentage = (odds, results) => {
+export const getIndexValueOfGivenPercentage = ({ odds, results }) => {
   // 確率と返す結果が同じ長さ出ない場合、エラ＝
-  if (odds.length !== results.length)
+  if (odds.length !== results.length) {
     throw new TypeError('Lengths are not equal.');
+  }
   const incrementor = (accumulator, currentValue) => accumulator + currentValue;
   // 確率の合計が100でない場合、エラー
   if (odds.reduce(incrementor) !== 100) {

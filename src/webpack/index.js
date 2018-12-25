@@ -6,8 +6,9 @@
  */
 
 import CONST from './helper/CONST';
+// import { getIndexValueOfGivenPercentage } from './helper/util';
 
-const { TEST_TEXT, NUMBER_10 } = CONST;
+const { NUMBER_10 } = CONST;
 
 export default class Index {
   /**
