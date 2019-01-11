@@ -67,7 +67,7 @@
     "watch:scss": "chokidar './src/scss/**/*.scss' --command 'npm run build:scss'",
     "watch:images": "chokidar './src/images/*' --command 'npm run copy:images'",
     "copy:images": "cpx \"./src/images/**/*\" ./dist/images",
-    "postcss": "postcss ./dist/css/style.css -c ./postcss.config.js -o ../dist/css/style.css",
+    "postcss": "postcss ./dist/css/style.css -c ./postcss.config.js -o ./dist/css/style.css",
     "test": "jest --watch",
     "lint": "eslint ./src/webpack/**/*.js",
     "prettier": "prettier ./src/webpack/**/*.js"
