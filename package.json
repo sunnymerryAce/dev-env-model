@@ -102,6 +102,7 @@
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "autoprefixer": "^9.3.1",
     "jest": "^23.6.0"
   }
