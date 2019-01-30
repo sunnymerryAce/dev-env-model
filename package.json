@@ -39,7 +39,7 @@
       "sourceType": "module"
     },
     "globals": {
-      "Velocity": true
+      "velocity": true
     },
     "rules": {
       "no-console": 0,

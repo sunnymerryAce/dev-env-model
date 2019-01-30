@@ -5,10 +5,10 @@
  * @link https://
  */
 
-import CONST from './helper/CONST';
+import Constant from './helper/Constant';
 // import { getIndexValueOfGivenPercentage } from './helper/util';
 
-const { NUMBER_10 } = CONST;
+const { NUMBER_10 } = Constant;
 
 export default class Index {
   /**
