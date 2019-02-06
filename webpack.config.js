@@ -11,7 +11,7 @@ module.exports = {
     process.env.NODE_ENV === 'production' ? '#cheap-module-source-map' : false,
   // エントリーポイントの指定 キーはコンパイルするjsの名前(下部の[name])になる
   entry: {
-    // babel-polyfillをエントリーポイントの前に読み込む
+    // Polyfillがあればエントリーポイントの前に読み込む
     index: [path.resolve(__dirname, 'src/webpack/index.js')],
   },
   // アウトプットの場所の指定
