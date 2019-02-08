@@ -3,6 +3,29 @@ export const getNumberFromString = string => parseInt(string, 10);
 export const isSpView = () => matchMedia('(max-width: 768px)').matches;
 
 /**
+ * イベントをキャンセルする
+ * @param {eventTarget} e
+ */
+export const cancelEvent = (e) => {
+  e.preventDefault();
+};
+
+/**
+ * スクロールを固定/固定解除する
+ * @param {boolean} fix 固定はtrue、解除はfalse
+ */
+export const toggleScroll = ({ fix }) => {
+  const wheelEvent = window.WheelEvent ? 'wheel' : 'mousewheel';
+  if (fix) {
+    window.addEventListener(wheelEvent, cancelEvent, { passive: false });
+    window.addEventListener('touchmove', cancelEvent, { passive: false });
+  } else {
+    window.removeEventListener(wheelEvent, cancelEvent, false);
+    window.removeEventListener('touchmove', cancelEvent, false);
+  }
+};
+
+/**
  * RequestAnimationFrameを初期化し、現在日時を取得する
  * @return {Number}
  */
