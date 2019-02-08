@@ -15,13 +15,15 @@ export const cancelEvent = (e) => {
  * @param {boolean} fix 固定はtrue、解除はfalse
  */
 export const toggleScroll = ({ fix }) => {
+  // IEにWheelEventないので要判定
   const wheelEvent = window.WheelEvent ? 'wheel' : 'mousewheel';
   if (fix) {
-    window.addEventListener(wheelEvent, cancelEvent, { passive: false });
-    window.addEventListener('touchmove', cancelEvent, { passive: false });
+    // optionを全く同じにしないとIEでremoveされない
+    document.addEventListener(wheelEvent, cancelEvent, { passive: false });
+    document.addEventListener('touchmove', cancelEvent, { passive: false });
   } else {
-    window.removeEventListener(wheelEvent, cancelEvent, false);
-    window.removeEventListener('touchmove', cancelEvent, false);
+    document.removeEventListener(wheelEvent, cancelEvent, { passive: false });
+    document.removeEventListener('touchmove', cancelEvent, { passive: false });
   }
 };
 
