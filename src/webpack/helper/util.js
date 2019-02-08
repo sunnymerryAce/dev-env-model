@@ -1,10 +1,36 @@
-export const getNumberFromString = (string) => {
-  return parseInt(string, 10);
+export const getNumberFromString = string => parseInt(string, 10);
+
+export const isSpView = () => matchMedia('(max-width: 768px)').matches;
+
+/**
+ * RequestAnimationFrameを初期化し、現在日時を取得する
+ * @return {Number}
+ */
+export const getTimeForRequestAnimationFrame = () => {
+  const requestAnimationFrame = window.requestAnimationFrame
+    || window.mozRequestAnimationFrame
+    || window.webkitRequestAnimationFrame
+    || window.msRequestAnimationFrame;
+  window.requestAnimationFrame = requestAnimationFrame;
+
+  const now = window.performance
+    && (performance.now
+      || performance.mozNow
+      || performance.msNow
+      || performance.oNow
+      || performance.webkitNow);
+
+  return now ? now.call(performance) : new Date().getTime();
 };
 
-export const isSpView = () => {
-  return matchMedia('(max-width: 768px)').matches;
-};
+/**
+ * 英数字をspanタグで囲む
+ * @param {object} args
+ * @param {string} args.string
+ * @param {string} args.className
+ * @return {string}
+ */
+export const wrapAlphanumericWithSpan = ({ string, className }) => string.replace(/([a-zA-Z0-9,¥\.\-]+)/g, `<span class="${className}">$1</span>`);
 
 /**
  * 乱数取得
@@ -15,9 +41,7 @@ export const isSpView = () => {
  * @param {Number} args.max
  * @returns {Number}
  */
-export const getRandomInt = ({ min, max }) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+export const getRandomInt = ({ min, max }) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 /**
  * oddsの確率に応じて、確率に対応するインデックスを返す
@@ -68,9 +92,8 @@ export const getOuterWidth = (el) => {
 export const enablePassiveEventListeners = () => {
   let result = false;
 
-  const opts =
-    Object.defineProperty &&
-    Object.defineProperty({}, 'passive', {
+  const opts = Object.defineProperty
+    && Object.defineProperty({}, 'passive', {
       get: () => {
         result = true;
       },
@@ -86,8 +109,7 @@ export const getComputedTranslateXY = (dom) => {
   if (!window.getComputedStyle) return;
 
   const style = getComputedStyle(dom);
-  const transform =
-    style.transform || style.webkitTransform || style.mozTransform;
+  const transform = style.transform || style.webkitTransform || style.mozTransform;
 
   let mat = transform.match(/^matrix3d\((.+)\)$/);
   if (mat) return parseFloat(mat[1].split(', ')[13]);
@@ -99,8 +121,7 @@ export const getComputedTranslateXY = (dom) => {
 
 export const setComputedTranslateXY = (dom, position) => {
   const style = getComputedStyle(dom);
-  const transform =
-    style.transform || style.webkitTransform || style.mozTransform;
+  const transform = style.transform || style.webkitTransform || style.mozTransform;
 
   if (transform) {
     let mat = transform.match(/^matrix3d\((.+)\)$/);
@@ -114,7 +135,6 @@ export const setComputedTranslateXY = (dom, position) => {
     }
   } else {
     dom.style.transform = `matrix(${position.x}px,${position.y}px)`;
-    return;
   }
 };
 
@@ -159,13 +179,13 @@ export const hasCssProperty = (key) => {
 };
 
 export const getQueryObject = () => {
-  let object = {};
+  const object = {};
 
-  let arrQueries = location.search.replace(/^\?/, '').split('&');
+  const arrQueries = location.search.replace(/^\?/, '').split('&');
 
   arrQueries.forEach((query) => {
-    let key = query.split('=')[0];
-    let val = query.split('=')[1];
+    const key = query.split('=')[0];
+    const val = query.split('=')[1];
 
     object[key] = val;
   });
@@ -188,18 +208,18 @@ export const getQueryParameters = (target) => {
   }, {});
 };
 
-export const getCookieParameters = () => {
-  return document.cookie.split(';').reduce(function(obj, v) {
-    const pair = v.split('=');
-    obj[pair[0]] = pair[1];
-    if (obj[pair[0]]) return obj;
-  }, {});
-};
+export const getCookieParameters = () => document.cookie.split(';').reduce((obj, v) => {
+  const pair = v.split('=');
+  obj[pair[0]] = pair[1];
+  if (obj[pair[0]]) return obj;
+}, {});
 
 export const shuffleArray = (array) => {
-  let n = array.length,
-    t,
-    i;
+  let n = array.length;
+
+  let t;
+
+  let i;
 
   while (n) {
     i = Math.floor(Math.random() * n--);
