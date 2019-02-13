@@ -1,10 +1,7 @@
-export const getNumberFromString = string => parseInt(string, 10);
-
-export const isSpView = () => matchMedia('(max-width: 768px)').matches;
-
 /**
  * イベントをキャンセルする
  * @param {eventTarget} e
+ * @returns {void}
  */
 export const cancelEvent = (e) => {
   e.preventDefault();
@@ -13,6 +10,7 @@ export const cancelEvent = (e) => {
 /**
  * スクロールを固定/固定解除する
  * @param {boolean} fix 固定はtrue、解除はfalse
+ * @returns {void}
  */
 export const toggleScroll = ({ fix }) => {
   // IEにWheelEventないので要判定
@@ -29,7 +27,7 @@ export const toggleScroll = ({ fix }) => {
 
 /**
  * RequestAnimationFrameを初期化し、現在日時を取得する
- * @return {Number}
+ * @returns {number} ミリ秒単位で計測された DOMHighResTimeStamp
  */
 export const getTimeForRequestAnimationFrame = () => {
   const requestAnimationFrame = window.requestAnimationFrame
@@ -52,37 +50,44 @@ export const getTimeForRequestAnimationFrame = () => {
  * 英数字をspanタグで囲む
  * @param {object} args
  * @param {string} args.string
- * @param {string} args.className
- * @return {string}
+ * @param {string} args.className spanタグのクラス名
+ * @returns {string}
  */
-export const wrapAlphanumericWithSpan = ({ string, className }) => string.replace(/([a-zA-Z0-9,¥\.\-]+)/g, `<span class="${className}">$1</span>`);
+export const wrapAlphanumericWithSpan = ({ string, className = '' }) => {
+  if (string === null || string === undefined) {
+    throw new Error('String is invalid.');
+  } else {
+    return string.replace(/([a-zA-Z0-9,¥\.\-]+)/g, `<span class="${className}">$1</span>`);
+  }
+};
 
 /**
  * 乱数取得
- * min から max までの乱整数を返す関数
+ * min から max までの乱整数を返す関数 min、maxは順不同
  * Math.round() を用いると非一様分布
- * @param {Object} args
- * @param {Number} args.min
- * @param {Number} args.max
- * @returns {Number}
+ * @param {object} args
+ * @param {number} args.min
+ * @param {number} args.max
+ * @returns {number}
  */
-export const getRandomInt = ({ min, max }) => Math.floor(Math.random() * (max - min + 1)) + min;
+export const getRandomInt = ({ min = 0, max = 0 }) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 /**
- * oddsの確率に応じて、確率に対応するインデックスを返す
- * @param {Object} args
- * @param {Array} args.odds
- * @param {Array} args.results
+ * 確率に対応する配列要素を返す
+ * @param {object} args
+ * @param {array} args.odds 確率 (0~100)
+ * @param {array} args.results
+ * @returns {any}
  */
 export const getIndexValueOfGivenPercentage = ({ odds, results }) => {
   // 確率と返す結果が同じ長さ出ない場合、エラ＝
   if (odds.length !== results.length) {
-    throw new TypeError('Lengths are not equal.');
+    throw new Error('Lengths are not equal.');
   }
   const incrementor = (accumulator, currentValue) => accumulator + currentValue;
   // 確率の合計が100でない場合、エラー
   if (odds.reduce(incrementor) !== 100) {
-    throw new TypeError('Total odds must be 100.');
+    throw new Error('Total odds must be 100.');
   }
 
   // 計算用配列を作成
@@ -92,7 +97,7 @@ export const getIndexValueOfGivenPercentage = ({ odds, results }) => {
   });
 
   // 乱数作成
-  const number = Math.floor(Math.random() * 100) + 1;
+  const number = getRandomInt({ min: 1, max: 100 });
   let result = '';
   calcOdds.forEach((percentage, index) => {
     // 確率の範囲内であればインデックスを更新
@@ -101,18 +106,21 @@ export const getIndexValueOfGivenPercentage = ({ odds, results }) => {
   return result;
 };
 
-/*
- * Outer Width With Margin
+/**
+ * Get Width with Margin
+ * @param {element} $el
+ * @returns {number}
  */
-export const getOuterWidth = (el) => {
-  let width = el.offsetWidth;
-  const style = getComputedStyle(el);
+export const getOuterWidth = ($el) => {
+  const style = getComputedStyle($el);
+  let width = $el.offsetWidth;
   width += parseInt(style.marginLeft, 10) + parseInt(style.marginRight, 10);
   return width;
 };
 
 /**
  * passive:trueが使えるかどうかを判定する
+ * @returns {boolean}
  */
 export const enablePassiveEventListeners = () => {
   let result = false;
@@ -123,135 +131,22 @@ export const enablePassiveEventListeners = () => {
         result = true;
       },
     });
-
   document.addEventListener('test', () => {}, opts);
 
   return result;
 };
 
-export const getComputedTranslateXY = (dom) => {
-  const transArr = [];
-  if (!window.getComputedStyle) return;
-
-  const style = getComputedStyle(dom);
-  const transform = style.transform || style.webkitTransform || style.mozTransform;
-
-  let mat = transform.match(/^matrix3d\((.+)\)$/);
-  if (mat) return parseFloat(mat[1].split(', ')[13]);
-  mat = transform.match(/^matrix\((.+)\)$/);
-  mat ? transArr.push(parseFloat(mat[1].split(', ')[4])) : 0;
-  mat ? transArr.push(parseFloat(mat[1].split(', ')[5])) : 0;
-  return transArr;
-};
-
-export const setComputedTranslateXY = (dom, position) => {
-  const style = getComputedStyle(dom);
-  const transform = style.transform || style.webkitTransform || style.mozTransform;
-
-  if (transform) {
-    let mat = transform.match(/^matrix3d\((.+)\)$/);
-    if (mat) {
-      dom.style.transform = `matrix3d(${position.x}px,${position.y}px)`;
-      return;
-    }
-    mat = transform.match(/^matrix\((.+)\)$/);
-    if (mat) {
-      dom.style.transform = `matrix(${position.x}px,${position.y}px)`;
-    }
-  } else {
-    dom.style.transform = `matrix(${position.x}px,${position.y}px)`;
-  }
-};
-
-export const getTransitionendName = () => {
-  const el = document.createElement('test');
-  const transitions = {
-    transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
-    MozTransition: 'transitionend',
-    WebkitTransition: 'webkitTransitionEnd',
-  };
-  let key;
-
-  for (key in transitions) {
-    if (el.style[key] !== undefined) {
-      return transitions[key];
-    }
-  }
-
-  return false;
-};
-
-export const hasCssProperty = (key) => {
-  const styles = getComputedStyle(document.body);
-  const vendors = ['', 'ms', 'moz', 'webkit', 'o'];
-  let result = false;
-  let style;
-
-  vendors.forEach((vendor) => {
-    if (result) return;
-
-    if (vendor === '') {
-      style = key;
-    } else {
-      style = key.replace(/^[a-z]/, key.charAt(0).toUpperCase());
-    }
-
-    result = styles.hasOwnProperty(`${vendor}${style}`);
-  });
-
-  return result;
-};
-
+/**
+ * get QueryParameters As Object
+ * @returns {object} QueryParameters
+ */
 export const getQueryObject = () => {
   const object = {};
-
-  const arrQueries = location.search.replace(/^\?/, '').split('&');
-
+  const arrQueries = window.location.search.replace(/^\?/, '').split('&');
   arrQueries.forEach((query) => {
     const key = query.split('=')[0];
-    const val = query.split('=')[1];
-
-    object[key] = val;
+    const value = query.split('=')[1];
+    object[key] = value;
   });
-
   return object;
-};
-
-/**
- * [getQueryParameters description]
- *
- * location.search.substr(1)
- * element.getAttribute('href').replace(/^http(.*?)\?/, '')
- */
-export const getQueryParameters = (target) => {
-  const text = target;
-  return text.split('&').reduce((obj, v) => {
-    const pair = v.split('=');
-    obj[pair[0]] = pair[1];
-    if (obj[pair[0]]) return obj;
-  }, {});
-};
-
-export const getCookieParameters = () => document.cookie.split(';').reduce((obj, v) => {
-  const pair = v.split('=');
-  obj[pair[0]] = pair[1];
-  if (obj[pair[0]]) return obj;
-}, {});
-
-export const shuffleArray = (array) => {
-  let n = array.length;
-
-  let t;
-
-  let i;
-
-  while (n) {
-    i = Math.floor(Math.random() * n--);
-    t = array[n];
-    array[n] = array[i];
-    array[i] = t;
-  }
-
-  return array;
 };
