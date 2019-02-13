@@ -57,7 +57,7 @@ export const wrapAlphanumericWithSpan = ({ string, className = '' }) => {
   if (string === null || string === undefined) {
     throw new Error('String is invalid.');
   } else {
-    return string.replace(/([a-zA-Z0-9,¥\.\-]+)/g, `<span class="${className}">$1</span>`);
+    return string.replace(/([a-zA-Z0-9,¥.-]+)/g, `<span class="${className}">$1</span>`);
   }
 };
 
