@@ -94,6 +94,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "autoprefixer": "^9.3.1",
+    "intersection-observer": "^0.5.1",
     "jest": "^24.0.0"
   }
 }
