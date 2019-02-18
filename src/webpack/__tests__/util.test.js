@@ -59,32 +59,77 @@ describe('wrapAlphanumericWithSpan', () => {
   });
 });
 
-describe('getRandomInt', () => {
+describe('randomIntegerInRange', () => {
   test('Normal', () => {
-    const result = util.getRandomInt({ min: 1, max: 2 });
+    const result = util.randomIntegerInRange({ min: 1, max: 2 });
     expect(result).toBeGreaterThanOrEqual(1);
     expect(result).toBeLessThanOrEqual(2);
   });
   test('Normal - Reverse', () => {
-    const result = util.getRandomInt({ min: 2, max: 1 });
+    const result = util.randomIntegerInRange({ min: 2, max: 1 });
     expect(result).toBeGreaterThanOrEqual(1);
     expect(result).toBeLessThanOrEqual(2);
   });
   test('Normal - Negative', () => {
-    const result = util.getRandomInt({ min: -10, max: -5 });
+    const result = util.randomIntegerInRange({ min: -10, max: -5 });
     expect(result).toBeGreaterThanOrEqual(-10);
     expect(result).toBeLessThanOrEqual(-5);
   });
   test('Abnormal - No Minimum', () => {
-    const result = util.getRandomInt({ max: 2 });
+    const result = util.randomIntegerInRange({ max: 2 });
     expect(result).toBeGreaterThanOrEqual(0);
     expect(result).toBeLessThanOrEqual(2);
   });
   test('Abnormal - No Maximum', () => {
-    const result = util.getRandomInt({ min: 5 });
+    const result = util.randomIntegerInRange({ min: 5 });
     expect(result).toBeGreaterThanOrEqual(0);
     expect(result).toBeLessThanOrEqual(5);
   });
+});
+
+describe('isInRange', () => {
+  test('Normal - In Range', () => {
+    const result = util.isInRange({ number: 5, first: 1, last: 10 });
+    expect(result).toBeTruthy();
+  });
+  test('Normal - Not In Range', () => {
+    const result = util.isInRange({ number: 5, first: 1, last: 4 });
+    expect(result).toBeFalsy();
+  });
+  test('Normal - In range (Upper Limit Only)', () => {
+    const result = util.isInRange({ number: 5, last: 5 });
+    expect(result).toBeTruthy();
+  });
+  test('Normal - Not In range (Upper Limit Only)', () => {
+    const result = util.isInRange({ number: 5, last: 4 });
+    expect(result).toBeFalsy();
+  });
+  test('Normal - In range (Lower Limit Only)', () => {
+    const result = util.isInRange({ number: 5, first: 5 });
+    expect(result).toBeTruthy();
+  });
+  test('Normal - Not In range (Lower Limit Only)', () => {
+    const result = util.isInRange({ number: 5, first: 6 });
+    expect(result).toBeFalsy();
+  });
+  test('Abnormal - No Number', () => {
+    function test() {
+      util.isInRange({ number: undefined, first: 1, last: 10 });
+    }
+    expect(test).toThrowError('No number.');
+  });
+  test('Abnormal - No range', () => {
+    function test() {
+      util.isInRange({ number: 5 });
+    }
+    expect(test).toThrowError('No range.');
+  });
+
+  // test('Abnormal - No Maximum', () => {
+  //   const result = util.randomIntegerInRange({ min: 5 });
+  //   expect(result).toBeGreaterThanOrEqual(0);
+  //   expect(result).toBeLessThanOrEqual(5);
+  // });
 });
 
 describe('getIndexValueOfGivenPercentage', () => {

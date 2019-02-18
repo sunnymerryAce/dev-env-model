@@ -70,7 +70,25 @@ export const wrapAlphanumericWithSpan = ({ string, className = '' }) => {
  * @param {number} args.max
  * @returns {number}
  */
-export const getRandomInt = ({ min = 0, max = 0 }) => Math.floor(Math.random() * (max - min + 1)) + min;
+export const randomIntegerInRange = ({ min = 0, max = 0 }) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+/**
+ * 範囲内判定
+ * Checks if the given number falls within the given range.
+ * @param {object} args
+ * @param {number} args.number
+ * @param {number} args.first
+ * @param {number} args.last
+ */
+export const isInRange = ({ number = null, first = null, last = null }) => {
+  if (typeof number !== 'number') throw new Error('No number.');
+  if (typeof first !== 'number' && typeof last !== 'number') throw new Error('No range.');
+  // upper limit only
+  if (typeof first !== 'number') return number <= last;
+  // lower limit only
+  if (typeof last !== 'number') return number >= first;
+  return number >= first && number <= last;
+};
 
 /**
  * 確率に対応する配列要素を返す
@@ -97,7 +115,7 @@ export const getIndexValueOfGivenPercentage = ({ odds, results }) => {
   });
 
   // 乱数作成
-  const number = getRandomInt({ min: 1, max: 100 });
+  const number = randomIntegerInRange({ min: 1, max: 100 });
   let result = '';
   calcOdds.forEach((percentage, index) => {
     // 確率の範囲内であればインデックスを更新
