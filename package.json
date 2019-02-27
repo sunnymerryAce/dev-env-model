@@ -36,10 +36,15 @@
       "airbnb-base"
     ],
     "parserOptions": {
+      "parser": "babel-eslint",
       "sourceType": "module"
     },
     "globals": {
-      "velocity": true
+      "velocity": true,
+      "_": true,
+      "axios": true,
+      "YT": true,
+      "anime": true
     },
     "rules": {
       "no-console": 0,
