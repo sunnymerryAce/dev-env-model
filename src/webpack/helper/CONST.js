@@ -1,7 +1,7 @@
 /**
  * Constant Class
  */
-const CONSTANT = {
+const CONST = {
   // Events
   EVENT_LOAD_COMPLETE: 'loadComplete',
   EVENT_OPEN_MODAL: 'openModal',
@@ -11,4 +11,4 @@ const CONSTANT = {
   },
 };
 
-export default CONSTANT;
+export default CONST;
