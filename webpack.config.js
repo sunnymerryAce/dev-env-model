@@ -4,20 +4,17 @@ const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
+const enableSourceMap = process.env.NODE_ENV === 'development';
+
 module.exports = {
   mode: process.env.NODE_ENV,
-  // ソースマップの有無を指定
-  devtool:
-    process.env.NODE_ENV === 'production' ? '#cheap-module-source-map' : false,
   // エントリーポイントの指定 キーはコンパイルするjsの名前(下部の[name])になる
   entry: {
-    // Polyfillがあればエントリーポイントの前に読み込む
+    // Polyfillがあればエントリーポイントの前に読み込むこと
     index: [path.resolve(__dirname, 'src/webpack/index.js')],
   },
-  // アウトプットの場所の指定
   output: {
     path: path.resolve(__dirname, 'dist/js'),
-    // jsファイル名の指定
     filename: '[name].bundle.js',
   },
   // vagrantでlinuxを立てその中でwebpackを実行する場合、以下を指定しないとwatchされない
@@ -57,35 +54,46 @@ module.exports = {
         loader: 'pug-plain-loader',
       },
       {
-        test: /\.css$/,
+        test: /\.scss/,
         use: [
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
+              sourceMap: enableSourceMap,
+              // 0 => no loaders (default);
+              // 1 => postcss-loader;
+              // 2 => postcss-loader, sass-loader
               importLoaders: 2,
-              minimize: true,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-              minimize: true,
             },
           },
           {
             loader: 'postcss-loader',
+            options: {
+              sourceMap: enableSourceMap,
+              plugins: enableSourceMap
+                ? []
+                : // Productionビルドのときのみ
+                [
+                  // CSS圧縮有効化
+                  require('cssnano')({
+                    preset: 'default',
+                  }),
+                  // Autoprefixer有効化
+                  require('autoprefixer')({
+                    browsers: ['last 2 versions', 'ie >= 11', 'Android >= 4.4', 'safari >= 9'],
+                    // グリッドレイアウト有効化
+                    grid: true,
+                  }),
+                ],
+            },
           },
           {
             loader: 'sass-loader',
-            // 共通箇所の読み込み
             options: {
-              data: '@import "_common.scss";',
+              sourceMap: enableSourceMap,
+              // 共通箇所の読み込み
+              // data: '@import "_common.scss";',
               includePaths: [path.resolve(__dirname, './src/scss/')],
             },
           },
@@ -100,7 +108,7 @@ module.exports = {
   },
   plugins: [
     // bundleサイズの表示
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
     // JS内の'process.env.NODE_ENV'が'development'か'production'に置き換わる
     new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
     // 共通プラグインを利用するときはこれを書いておけばインポート不要
