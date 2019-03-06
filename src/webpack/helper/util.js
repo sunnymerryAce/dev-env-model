@@ -36,6 +36,12 @@ export const getTimeForRequestAnimationFrame = () => {
     || window.msRequestAnimationFrame;
   window.requestAnimationFrame = requestAnimationFrame;
 
+  const cancelAnimationFrame = window.cancelAnimationFrame
+    || window.mozcancelAnimationFrame
+    || window.webkitcancelAnimationFrame
+    || window.mscancelAnimationFrame;
+  window.cancelAnimationFrame = cancelAnimationFrame;
+
   const now = window.performance
     && (performance.now
       || performance.mozNow
