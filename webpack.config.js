@@ -2,9 +2,10 @@
 const webpack = require('webpack');
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-const enableSourceMap = process.env.NODE_ENV === 'development';
+const isDevelop = process.env.NODE_ENV === 'development';
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -56,11 +57,11 @@ module.exports = {
       {
         test: /\.scss/,
         use: [
-          'style-loader',
+          isDevelop ? 'style-loader' : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
-              sourceMap: enableSourceMap,
+              sourceMap: isDevelop,
               // 0 => no loaders (default);
               // 1 => postcss-loader;
               // 2 => postcss-loader, sass-loader
@@ -70,11 +71,10 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: enableSourceMap,
-              plugins: enableSourceMap
+              sourceMap: isDevelop,
+              plugins: isDevelop
                 ? []
-                : // Productionビルドのときのみ
-                [
+                : [
                   // CSS圧縮有効化
                   require('cssnano')({
                     preset: 'default',
@@ -91,7 +91,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: enableSourceMap,
+              sourceMap: isDevelop,
               // 共通箇所の読み込み
               // data: '@import "_common.scss";',
               includePaths: [path.resolve(__dirname, './src/scss/')],
@@ -109,6 +109,11 @@ module.exports = {
   plugins: [
     // bundleサイズの表示
     // new BundleAnalyzerPlugin(),
+    // CSSの別だし
+    new MiniCssExtractPlugin({
+      // JSアウトプットディレクトリからの相対
+      filename: '../css/[name].css',
+    }),
     // JS内の'process.env.NODE_ENV'が'development'か'production'に置き換わる
     new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
     // 共通プラグインを利用するときはこれを書いておけばインポート不要

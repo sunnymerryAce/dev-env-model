@@ -7,7 +7,7 @@
 
 // import CONSTANT from './helper/CONSTANT';
 // import { getIndexValueOfGivenPercentage } from './helper/util';
-import '../scss/style.scss';
+import '../scss/index.scss';
 
 export default class Index {
   /**
