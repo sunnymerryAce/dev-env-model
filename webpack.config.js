@@ -121,6 +121,8 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
       velocity: 'velocity-animate',
+      axios: 'axios',
+      _: 'lodash',
     }),
   ],
 };
