@@ -12,7 +12,7 @@ module.exports = {
   // エントリーポイントの指定 キーはコンパイルするjsの名前(下部の[name])になる
   entry: {
     // Polyfillがあればエントリーポイントの前に読み込むこと
-    index: [path.resolve(__dirname, 'src/webpack/index.js')],
+    index: [path.resolve(__dirname, 'src/js/index.js')],
   },
   output: {
     path: path.resolve(__dirname, 'dist/js'),
@@ -104,7 +104,8 @@ module.exports = {
   resolve: {
     modules: ['node_modules', path.resolve(__dirname, 'src')],
     // ビルド対象に含めたいファイルの拡張子を Array で指定
-    extensions: ['*', '.js', '.vue', '.json'], // デフォルトでは ['.wasm', '.mjs', '.js', '.json']
+    // デフォルトでは ['.wasm', '.mjs', '.js', '.json']
+    extensions: ['*', '.js', '.vue', '.json'],
   },
   plugins: [
     // bundleサイズの表示

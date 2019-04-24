@@ -69,7 +69,7 @@
     "watch:images": "chokidar './src/images/*' --command 'npm run copy:images'",
     "copy:images": "cpx \"./src/images/**/*\" ./dist/images",
     "test": "jest --watch",
-    "lint": "eslint ./src/webpack/**/*.js"
+    "lint": "eslint ./src/js/**/*.js"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
