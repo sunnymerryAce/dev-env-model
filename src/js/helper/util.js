@@ -174,3 +174,19 @@ export const getQueryObject = () => {
   });
   return object;
 };
+
+/**
+ * Copy string to clipboard
+ * @param {string} string
+ * @returns {boolean} result
+ */
+export const copyToClipboard = (string) => {
+  const $el = document.createElement('textarea');
+  $el.textContent = string;
+  const $body = document.querySelector('body');
+  $body.appendChild($el);
+  $el.select();
+  const result = document.execCommand('copy');
+  $body.removeChild($el);
+  return result;
+};
