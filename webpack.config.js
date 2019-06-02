@@ -66,6 +66,8 @@ module.exports = {
               // 1 => postcss-loader;
               // 2 => postcss-loader, sass-loader
               importLoaders: 2,
+              // CSS内のurl()メソッドの取り込みを禁止する
+              url: false,
             },
           },
           {
