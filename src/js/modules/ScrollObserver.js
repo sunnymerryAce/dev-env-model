@@ -16,13 +16,17 @@ export default class ScrollObserver {
     this.initializeView();
     this.oneTimeObserver = ScrollObserver.startObserve({
       $targets: this.$targets1,
-      callback: this.onIntersecting,
+      callback: (entry) => {
+        this.onIntersecting(entry);
+      },
       options: this.defaultOptions,
       isOnce: true,
     });
     this.permanentObserver = ScrollObserver.startObserve({
       $targets: this.$targets2,
-      callback: this.onIntersecting,
+      callback: (entry) => {
+        this.onIntersecting(entry);
+      },
       options: this.defaultOptions,
       isOnce: false,
     });
