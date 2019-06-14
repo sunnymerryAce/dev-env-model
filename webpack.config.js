@@ -1,15 +1,15 @@
-// プラグインを利用するためにwebpackを読み込んでおく
 const webpack = require('webpack');
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Cssnano = require('cssnano');
+const Autoprefixer = require('autoprefixer');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const isDevelop = process.env.NODE_ENV === 'development';
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  // エントリーポイントの指定 キーはコンパイルするjsの名前(下部の[name])になる
   entry: {
     // Polyfillがあればエントリーポイントの前に読み込むこと
     index: [path.resolve(__dirname, 'src/js/index.js')],
@@ -19,9 +19,9 @@ module.exports = {
     filename: '[name].bundle.js',
   },
   // vagrantでlinuxを立てその中でwebpackを実行する場合、以下を指定しないとwatchされない
-  watchOptions: {
-    poll: true,
-  },
+  // watchOptions: {
+  //   poll: true,
+  // },
   optimization: {
     // 共通モジュールのバンドル
     splitChunks: {
@@ -49,11 +49,6 @@ module.exports = {
         ],
         exclude: /node_modules/,
       },
-
-      {
-        test: /\.pug$/,
-        loader: 'pug-plain-loader',
-      },
       {
         test: /\.scss/,
         use: [
@@ -66,7 +61,7 @@ module.exports = {
               // 1 => postcss-loader;
               // 2 => postcss-loader, sass-loader
               importLoaders: 2,
-              // CSS内のurl()メソッドの取り込みを禁止する
+              // CSS内のurl()メソッドの取り込み trueでBase64画像としてCSSに取り込む
               url: false,
             },
           },
@@ -78,12 +73,11 @@ module.exports = {
                 ? []
                 : [
                   // CSS圧縮有効化
-                  require('cssnano')({
+                  Cssnano({
                     preset: 'default',
                   }),
                   // Autoprefixer有効化
-                  require('autoprefixer')({
-                    browsers: ['last 2 versions', 'ie >= 11', 'Android >= 4.4', 'safari >= 9'],
+                  Autoprefixer({
                     // グリッドレイアウト有効化
                     grid: true,
                   }),
@@ -100,6 +94,11 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.(gif|png|jpg|eot|wof|woff|woff2|ttf|svg)$/,
+        // 画像をBase64として取り込む
+        loader: 'url-loader',
       },
     ],
   },
@@ -125,7 +124,6 @@ module.exports = {
       jQuery: 'jquery',
       velocity: 'velocity-animate',
       axios: 'axios',
-      _: 'lodash',
     }),
   ],
 };
