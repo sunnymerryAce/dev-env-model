@@ -63,6 +63,8 @@ module.exports = {
               importLoaders: 2,
               // CSS内のurl()メソッドの取り込み trueでBase64画像としてCSSに取り込む
               url: false,
+              // true で CSS Modules 有効化
+              modules: false,
             },
           },
           {
@@ -104,9 +106,8 @@ module.exports = {
   },
   resolve: {
     modules: ['node_modules', path.resolve(__dirname, 'src')],
-    // ビルド対象に含めたいファイルの拡張子を Array で指定
-    // デフォルトでは ['.wasm', '.mjs', '.js', '.json']
-    extensions: ['*', '.js', '.vue', '.json'],
+    // 拡張子を省略してimportできる拡張子の設定
+    extensions: ['.js', '.vue'],
   },
   plugins: [
     // bundleサイズの表示
