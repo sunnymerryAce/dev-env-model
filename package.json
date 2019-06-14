@@ -61,15 +61,13 @@
     "safari >= 9"
   ],
   "scripts": {
-    "dev": "npm-run-all -p build:pug develop:webpack 'watch:*'",
-    "build": "npm-run-all -p 'build:*' copy:images",
-    "develop:webpack": "NODE_ENV=development webpack --watch --mode development --display-error-details --progress --colors",
-    "build:webpack": "NODE_ENV=production webpack --mode production --display-error-details --progress --colors",
-    "json-server": "json-server --watch db.json",
+    "dev": "npm-run-all -p build:pug 'develop:*' 'watch:*'",
+    "build": "npm-run-all -p 'build:*'",
+    "develop:js": "NODE_ENV=development webpack --watch --mode development --display-error-details --progress --colors",
+    "build:js": "NODE_ENV=production webpack --mode production --display-error-details --progress --colors",
     "build:pug": "pug ./src/pug/pages/*.pug --pretty -o ./dist",
     "watch:pug": "chokidar './src/pug/**/*.pug' --command 'npm run build:pug'",
-    "watch:images": "chokidar './src/images/*' --command 'npm run copy:images'",
-    "copy:images": "cpx \"./src/images/**/*\" ./dist/images",
+    "json-server": "json-server --watch db.json",
     "test": "jest --watch",
     "lint": "eslint ./src/js/**/*.js"
   },
