@@ -24,9 +24,7 @@ export default class ScrollObserver {
     });
     this.permanentObserver = ScrollObserver.startObserve({
       $targets: this.$targets2,
-      callback: (entry) => {
-        this.onIntersecting(entry);
-      },
+      callback: entry => this.onIntersecting(entry),
       options: this.defaultOptions,
       isOnce: false,
     });
@@ -44,6 +42,7 @@ export default class ScrollObserver {
   /**
    * 交差時の処理
    * @param {IntersectionObserverEntry} entry
+   * @returns {boolean} 処理実行の有無
    */
   onIntersecting(entry) {
     //   entry.target ターゲット
@@ -54,7 +53,9 @@ export default class ScrollObserver {
     if (entry.isIntersecting && entry.boundingClientRect.top > 0) {
       // do something
       this.show();
+      return true;
     }
+    return false;
   }
 
   /**
@@ -73,11 +74,9 @@ export default class ScrollObserver {
       // 閾値(thresholds)を前後するたびにトリガー
       // entriesには閾値を超えたターゲットのみが[]で入ってくる
       entries.forEach((entry) => {
-        callback(entry);
-        if (isOnce) {
-          // 一回のみの発火の場合は監視を解除
-          observer.unobserve(entry.target);
-        }
+        const triggered = callback(entry);
+        // 一回のみの発火の場合は監視を解除
+        if (isOnce && triggered) observer.unobserve(entry.target);
       });
     }, options);
     // ターゲットを登録
