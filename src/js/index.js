@@ -5,7 +5,7 @@
  * @link https://
  */
 
-// import CONSTANT from './helper/CONSTANT';
+// import CONFIG from './helper/CONFIG';
 // import { getIndexValueOfGivenPercentage } from './helper/util';
 import '../scss/index.scss';
 

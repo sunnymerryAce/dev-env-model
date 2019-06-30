@@ -1,7 +1,7 @@
 /**
- * Constants
+ * Configuration Data and Constants
  */
-const CONST = {
+const CONFIG = {
   // Events
   EVENT: {
     LOAD_COMPLETE: 'loadComplete',
@@ -10,4 +10,4 @@ const CONST = {
   },
 };
 
-export default CONST;
+export default CONFIG;

@@ -1,54 +1,54 @@
 import * as util from '../helper/util';
-import CONSTANT from '../helper/CONSTANT';
+import CONFIG from '../helper/CONFIG';
 
 describe('wrapAlphanumericWithSpan', () => {
   test('Normal - Single Sentence', () => {
     const string = 'One';
-    const newString = `<span class="${CONSTANT.TEST.CLASS_NAME}">${string}</span>`;
-    expect(util.wrapAlphanumericWithSpan({ string, className: CONSTANT.TEST.CLASS_NAME })).toEqual(
+    const newString = `<span class="${CONFIG.TEST.CLASS_NAME}">${string}</span>`;
+    expect(util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME })).toEqual(
       newString,
     );
   });
   test('Normal - Multiple Sentences', () => {
     const string = '1 2';
     const words = string.split(' ');
-    const newString = `<span class="${CONSTANT.TEST.CLASS_NAME}">${words[0]}</span> <span class="${
-      CONSTANT.TEST.CLASS_NAME
+    const newString = `<span class="${CONFIG.TEST.CLASS_NAME}">${words[0]}</span> <span class="${
+      CONFIG.TEST.CLASS_NAME
     }">${words[1]}</span>`;
-    expect(util.wrapAlphanumericWithSpan({ string, className: CONSTANT.TEST.CLASS_NAME })).toEqual(
+    expect(util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME })).toEqual(
       newString,
     );
   });
   test('Normal - Including Japanese', () => {
     const string = '英語with日本語';
-    const newString = `英語<span class="${CONSTANT.TEST.CLASS_NAME}">with</span>日本語`;
-    expect(util.wrapAlphanumericWithSpan({ string, className: CONSTANT.TEST.CLASS_NAME })).toEqual(
+    const newString = `英語<span class="${CONFIG.TEST.CLASS_NAME}">with</span>日本語`;
+    expect(util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME })).toEqual(
       newString,
     );
   });
   test('Abnormal - Null Text', () => {
     const string = '';
-    expect(util.wrapAlphanumericWithSpan({ string, className: CONSTANT.TEST.CLASS_NAME })).toEqual(
+    expect(util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME })).toEqual(
       string,
     );
   });
   test('Abnormal - Null', () => {
     const string = null;
     function testNull() {
-      util.wrapAlphanumericWithSpan({ string, className: CONSTANT.TEST.CLASS_NAME });
+      util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME });
     }
     expect(testNull).toThrowError('String is invalid.');
   });
   test('Abnormal - undefined', () => {
     const string = undefined;
     function testNull() {
-      util.wrapAlphanumericWithSpan({ string, className: CONSTANT.TEST.CLASS_NAME });
+      util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME });
     }
     expect(testNull).toThrowError('String is invalid.');
   });
   test('Abnormal - No String', () => {
     function testNull() {
-      util.wrapAlphanumericWithSpan({ className: CONSTANT.TEST.CLASS_NAME });
+      util.wrapAlphanumericWithSpan({ className: CONFIG.TEST.CLASS_NAME });
     }
     expect(testNull).toThrowError('String is invalid.');
   });
