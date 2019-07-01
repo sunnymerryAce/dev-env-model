@@ -190,3 +190,16 @@ export const copyToClipboard = (string) => {
   $body.removeChild($el);
   return result;
 };
+
+/**
+ * Create URLSearchParams Instance from Object
+ * @param {Object} params
+ * @returns {URLSearchParams}
+ */
+export const getURLSearchParams = (params) => {
+  const urlSearchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    urlSearchParams.append(key, value);
+  });
+  return urlSearchParams;
+};

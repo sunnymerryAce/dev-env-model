@@ -2,53 +2,54 @@ import * as util from '../helper/util';
 import CONFIG from '../helper/CONFIG';
 
 describe('wrapAlphanumericWithSpan', () => {
+  const className = 'className'
   test('Normal - Single Sentence', () => {
     const string = 'One';
-    const newString = `<span class="${CONFIG.TEST.CLASS_NAME}">${string}</span>`;
-    expect(util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME })).toEqual(
+    const newString = `<span class="${className}">${string}</span>`;
+    expect(util.wrapAlphanumericWithSpan({ string, className })).toEqual(
       newString,
     );
   });
   test('Normal - Multiple Sentences', () => {
     const string = '1 2';
     const words = string.split(' ');
-    const newString = `<span class="${CONFIG.TEST.CLASS_NAME}">${words[0]}</span> <span class="${
-      CONFIG.TEST.CLASS_NAME
+    const newString = `<span class="${className}">${words[0]}</span> <span class="${
+      className
     }">${words[1]}</span>`;
-    expect(util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME })).toEqual(
+    expect(util.wrapAlphanumericWithSpan({ string, className })).toEqual(
       newString,
     );
   });
   test('Normal - Including Japanese', () => {
     const string = '英語with日本語';
-    const newString = `英語<span class="${CONFIG.TEST.CLASS_NAME}">with</span>日本語`;
-    expect(util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME })).toEqual(
+    const newString = `英語<span class="${className}">with</span>日本語`;
+    expect(util.wrapAlphanumericWithSpan({ string, className })).toEqual(
       newString,
     );
   });
   test('Abnormal - Null Text', () => {
     const string = '';
-    expect(util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME })).toEqual(
+    expect(util.wrapAlphanumericWithSpan({ string, className })).toEqual(
       string,
     );
   });
   test('Abnormal - Null', () => {
     const string = null;
     function testNull() {
-      util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME });
+      util.wrapAlphanumericWithSpan({ string, className });
     }
     expect(testNull).toThrowError('String is invalid.');
   });
   test('Abnormal - undefined', () => {
     const string = undefined;
     function testNull() {
-      util.wrapAlphanumericWithSpan({ string, className: CONFIG.TEST.CLASS_NAME });
+      util.wrapAlphanumericWithSpan({ string, className });
     }
     expect(testNull).toThrowError('String is invalid.');
   });
   test('Abnormal - No String', () => {
     function testNull() {
-      util.wrapAlphanumericWithSpan({ className: CONFIG.TEST.CLASS_NAME });
+      util.wrapAlphanumericWithSpan({ className });
     }
     expect(testNull).toThrowError('String is invalid.');
   });
@@ -168,5 +169,20 @@ describe('getQueryObject', () => {
       query2: 'two',
     };
     expect(util.getQueryObject()).toEqual(expect.objectContaining(expectedObject));
+  });
+});
+
+describe('getURLSearchParams', () => {
+  const params = {
+    property1: 'One',
+    property2: 2,
+  };
+  test('isInstanceOfURLSearchParams', () => {
+    expect(util.getURLSearchParams(params)).toBeInstanceOf(URLSearchParams);
+  });
+  test('hasCorrectProperties', () => {
+    const expectedRegExp = new RegExp('property1=One&property2=2');
+    const res = util.getURLSearchParams(params);
+    expect(res.toString()).toMatch(expectedRegExp);
   });
 });
