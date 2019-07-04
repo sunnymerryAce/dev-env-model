@@ -1,6 +1,6 @@
 /**
  * イベントをキャンセルする
- * @param {eventTarget} e
+ * @param {EventTarget} e
  * @returns {void}
  */
 export const cancelEvent = (e) => {
@@ -54,9 +54,9 @@ export const getTimeForRequestAnimationFrame = () => {
 
 /**
  * 英数字をspanタグで囲む
- * @param {object} args
- * @param {string} args.string
- * @param {string} args.className spanタグのクラス名
+ * @param {Object} params
+ * @param {string} params.string
+ * @param {string} params.className spanタグのクラス名
  * @returns {string}
  */
 export const wrapAlphanumericWithSpan = ({ string, className = '' }) => {
@@ -71,9 +71,9 @@ export const wrapAlphanumericWithSpan = ({ string, className = '' }) => {
  * 乱数取得
  * min から max までの乱整数を返す関数 min、maxは順不同
  * Math.round() を用いると非一様分布
- * @param {object} args
- * @param {number} args.min
- * @param {number} args.max
+ * @param {Object} params
+ * @param {number} params.min
+ * @param {number} params.max
  * @returns {number}
  */
 export const randomIntegerInRange = ({ min = 0, max = 0 }) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -81,10 +81,10 @@ export const randomIntegerInRange = ({ min = 0, max = 0 }) => Math.floor(Math.ra
 /**
  * 範囲内判定
  * Checks if the given number falls within the given range.
- * @param {object} args
- * @param {number} args.number
- * @param {number} args.first
- * @param {number} args.last
+ * @param {Object} params
+ * @param {number} params.number
+ * @param {number} params.first
+ * @param {number} params.last
  */
 export const isInRange = ({ number = null, first = null, last = null }) => {
   if (typeof number !== 'number') throw new Error('No number.');
@@ -98,10 +98,11 @@ export const isInRange = ({ number = null, first = null, last = null }) => {
 
 /**
  * 確率に対応する配列要素を返す
- * @param {object} args
- * @param {array} args.odds 確率 (0~100)
- * @param {array} args.results
+ * @param {Object} params
+ * @param {array} params.odds 確率 (0~100)
+ * @param {array} params.results
  * @returns {any}
+ * @throws {Error}
  */
 export const getIndexValueOfGivenPercentage = ({ odds, results }) => {
   // 確率と返す結果が同じ長さ出ない場合、エラ＝
@@ -132,7 +133,7 @@ export const getIndexValueOfGivenPercentage = ({ odds, results }) => {
 
 /**
  * Get Width with Margin
- * @param {element} $el
+ * @param {Element} $el
  * @returns {number}
  */
 export const getOuterWidth = ($el) => {
@@ -162,7 +163,7 @@ export const enablePassiveEventListeners = () => {
 
 /**
  * get QueryParameters As Object
- * @returns {object} QueryParameters
+ * @returns {Object} QueryParameters
  */
 export const getQueryObject = () => {
   const object = {};
@@ -202,4 +203,39 @@ export const getURLSearchParams = (params) => {
     urlSearchParams.append(key, value);
   });
   return urlSearchParams;
+};
+
+/**
+ * Fetch HTTP request with handling server errors
+ * @param {Object} params
+ * @param {string} param.url
+ * @param {Object} param.options
+ * @returns {Object} Result
+ * @throws {Error} Server or other error
+ */
+export const fetchWithErrorHandling = ({ url, options }) => {
+  const handleErrors = (res) => {
+    if (res.ok) {
+      return res;
+    }
+    switch (res.status) {
+      case 400: throw new Error('BAD_REQUEST');
+      case 401: throw new Error('UNAUTHORIZED');
+      case 403: throw new Error('FORBIDDEN');
+      case 404: throw new Error('NOT_FOUND');
+      case 500: throw new Error('INTERNAL_SERVER_ERROR');
+      case 502: throw new Error('BAD_GATEWAY');
+      default: throw new Error('UNHANDLED_ERROR');
+    }
+  };
+
+  fetch(url, options)
+    // ネットワーク周りなどのリクエスト以前の段階でのエラーを処理する
+    .catch((e) => {
+      throw new Error(e);
+    })
+    // サーバサイドで発行されたエラーステータスを処理する
+    .then(handleErrors)
+    // 以上2つをパスした正常なレスポンスからJSONオブジェクトをパースする
+    .then(res => res.json());
 };
