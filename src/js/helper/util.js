@@ -1,3 +1,5 @@
+import CONFIG from './CONFIG';
+
 /**
  * イベントをキャンセルする
  * @param {EventTarget} e
@@ -219,13 +221,13 @@ export const fetchWithErrorHandling = ({ url, options }) => {
       return res;
     }
     switch (res.status) {
-      case 400: throw new Error('BAD_REQUEST');
-      case 401: throw new Error('UNAUTHORIZED');
-      case 403: throw new Error('FORBIDDEN');
-      case 404: throw new Error('NOT_FOUND');
-      case 500: throw new Error('INTERNAL_SERVER_ERROR');
-      case 502: throw new Error('BAD_GATEWAY');
-      default: throw new Error('UNHANDLED_ERROR');
+      case 400: throw new Error(CONFIG.ERROR[400]);
+      case 401: throw new Error(CONFIG.ERROR[401]);
+      case 403: throw new Error(CONFIG.ERROR[403]);
+      case 404: throw new Error(CONFIG.ERROR[404]);
+      case 500: throw new Error(CONFIG.ERROR[500]);
+      case 502: throw new Error(CONFIG.ERROR[502]);
+      default: throw new Error(CONFIG.ERROR.default);
     }
   };
 
