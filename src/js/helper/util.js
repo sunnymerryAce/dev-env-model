@@ -212,8 +212,8 @@ export const getURLSearchParams = (params) => {
  * @param {Object} params
  * @param {string} param.url
  * @param {Object} param.options
- * @returns {Object} Result
- * @throws {Error} Server or other error
+ * @returns {Object} result
+ * @throws {Error}
  */
 export const fetchWithErrorHandling = ({ url, options }) => {
   const handleErrors = (res) => {
@@ -221,23 +221,33 @@ export const fetchWithErrorHandling = ({ url, options }) => {
       return res;
     }
     switch (res.status) {
-      case 400: throw new Error(CONFIG.ERROR[400]);
-      case 401: throw new Error(CONFIG.ERROR[401]);
-      case 403: throw new Error(CONFIG.ERROR[403]);
-      case 404: throw new Error(CONFIG.ERROR[404]);
-      case 500: throw new Error(CONFIG.ERROR[500]);
-      case 502: throw new Error(CONFIG.ERROR[502]);
-      default: throw new Error(CONFIG.ERROR.default);
+      case 400:
+        throw new Error(CONFIG.ERROR[400]);
+      case 401:
+        throw new Error(CONFIG.ERROR[401]);
+      case 403:
+        throw new Error(CONFIG.ERROR[403]);
+      case 404:
+        throw new Error(CONFIG.ERROR[404]);
+      case 500:
+        throw new Error(CONFIG.ERROR[500]);
+      case 502:
+        throw new Error(CONFIG.ERROR[502]);
+      default:
+        throw new Error(CONFIG.ERROR.default);
     }
   };
-
-  fetch(url, options)
-    // ネットワーク周りなどのリクエスト以前の段階でのエラーを処理する
-    .catch((e) => {
-      throw new Error(e);
-    })
-    // サーバサイドで発行されたエラーステータスを処理する
-    .then(handleErrors)
-    // 以上2つをパスした正常なレスポンスからJSONオブジェクトをパースする
-    .then(res => res.json());
+  // fetchの結果を非同期で返す
+  return (
+    fetch(url, options)
+      // サーバサイドで発行されたエラーステータスを処理する
+      .then(handleErrors)
+      // 正常なレスポンスからJSONオブジェクトをパースする
+      .then(response => response.json())
+      .then(data => data)
+      // ネットワーク周りなどのリクエスト以前の段階でのエラーを処理する
+      .catch((err) => {
+        throw new Error(err);
+      })
+  );
 };
