@@ -29,7 +29,7 @@ export const intersectingTrigger = ({ entry, callback }) => {
  */
 export const upperSideIntersectingTrigger = ({ entry, callback }) => {
   if (entry.isIntersecting && entry.boundingClientRect.top > 0) {
-    callback();
+    callback(entry.target);
     return true;
   }
   return false;
