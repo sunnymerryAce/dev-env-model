@@ -120,11 +120,12 @@ module.exports = {
     // JS内の'process.env.NODE_ENV'が'development'か'production'に置き換わる
     new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
     // 共通プラグインを利用するときはこれを書いておけばインポート不要
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      velocity: 'velocity-animate',
-      axios: 'axios',
-    }),
+    // 不要なものも記載するとグローバルからバンドルされるので注意
+    // new webpack.ProvidePlugin({
+    //   $: 'jquery',
+    //   jQuery: 'jquery',
+    //   velocity: 'velocity-animate',
+    //   axios: 'axios',
+    // }),
   ],
 };

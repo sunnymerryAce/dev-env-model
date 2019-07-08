@@ -23,6 +23,5 @@ export default class Index {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  window.DEV_ENV_MODEL = window.DEV_ENV_MODEL || {};
-  window.DEV_ENV_MODEL.INDEX = window.DEV_ENV_MODEL.INDEX || new Index();
+  window.DEV_ENV_MODEL_INDEX = window.DEV_ENV_MODEL_INDEX || new Index();
 });
