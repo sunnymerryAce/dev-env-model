@@ -133,22 +133,22 @@ describe('isInRange', () => {
   // });
 });
 
-describe('getIndexValueOfGivenPercentage', () => {
+describe('getValueOfGivenPercentage', () => {
   test('Normal', () => {
     const odds = [100, 0, 0];
     const results = ['a', 'b', 'c'];
-    expect(util.getIndexValueOfGivenPercentage({ odds, results })).toMatch(/a/);
+    expect(util.getValueOfGivenPercentage({ odds, results })).toMatch(/a/);
   });
   test('Normal Second', () => {
     const odds = [0, 100, 0];
     const results = ['a', 'b', 'c'];
-    expect(util.getIndexValueOfGivenPercentage({ odds, results })).toMatch(/b/);
+    expect(util.getValueOfGivenPercentage({ odds, results })).toMatch(/b/);
   });
   test('Abnormal Unequal Length', () => {
     const odds = [0, 100];
     const results = ['a', 'b', 'c'];
     function test() {
-      util.getIndexValueOfGivenPercentage({ odds, results });
+      util.getValueOfGivenPercentage({ odds, results });
     }
     expect(test).toThrowError(/Lengths are not equal./);
   });
@@ -156,7 +156,7 @@ describe('getIndexValueOfGivenPercentage', () => {
     const odds = [20, 100, 40];
     const results = ['a', 'b', 'c'];
     function test() {
-      util.getIndexValueOfGivenPercentage({ odds, results });
+      util.getValueOfGivenPercentage({ odds, results });
     }
     expect(test).toThrowError(/Total odds must be 100./);
   });

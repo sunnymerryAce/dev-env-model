@@ -106,7 +106,7 @@ export const isInRange = ({ number = null, first = null, last = null }) => {
  * @returns {any}
  * @throws {Error}
  */
-export const getIndexValueOfGivenPercentage = ({ odds, results }) => {
+export const getValueOfGivenPercentage = ({ odds, results }) => {
   // 確率と返す結果が同じ長さ出ない場合、エラ＝
   if (odds.length !== results.length) {
     throw new Error('Lengths are not equal.');

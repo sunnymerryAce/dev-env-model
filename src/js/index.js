@@ -6,7 +6,7 @@
  */
 
 // import CONFIG from './helper/CONFIG';
-// import { getIndexValueOfGivenPercentage } from './helper/util';
+// import { getValueOfGivenPercentage } from './helper/util';
 import '../scss/index.scss';
 
 export default class Index {
