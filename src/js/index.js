@@ -5,8 +5,7 @@
  * @link https://
  */
 
-// import CONFIG from './helper/CONFIG';
-// import { getValueOfGivenPercentage } from './helper/util';
+import EventEmitter from './helper/EventEmitter';
 import '../scss/index.scss';
 
 export default class Index {
